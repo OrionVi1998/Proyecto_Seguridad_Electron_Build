@@ -1,6 +1,8 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import icon from '../../assets/icon.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Hello = () => {
   return (
@@ -27,12 +29,12 @@ const Hello = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <button type="button">
+          <Button type="button">
             <span role="img" aria-label="folded hands">
               🙏
             </span>
             Donate
-          </button>
+          </Button>
         </a>
       </div>
     </div>

@@ -1,51 +1,43 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import icon from '../../assets/icon.svg';
+import {
+  MemoryRouter as Router,
+  Routes,
+  Route,
+  NavLink,
+} from 'react-router-dom';
+
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import Cifrar from './components/Cifrar';
+import Descifrar from './components/Descifrar';
 
-const Hello = () => {
-  return (
-    <div>
-      <div className="Hello">
-        <img width="200" alt="icon" src={icon} />
-      </div>
-      <h1>electron-react-boilerplate</h1>
-      <div className="Hello">
-        <a
-          href="https://electron-react-boilerplate.js.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              📚
-            </span>
-            Read our docs
-          </button>
-        </a>
-        <a
-          href="https://github.com/sponsors/electron-react-boilerplate"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <Button type="button">
-            <span role="img" aria-label="folded hands">
-              🙏
-            </span>
-            Donate
-          </Button>
-        </a>
-      </div>
-    </div>
-  );
+const LandingPage = () => {
+  return <div className="LandingPage">Hi</div>;
 };
 
 export default function App() {
   return (
     <Router>
+      <Navbar bg="dark" fixed="top" variant="dark">
+        <Container>
+          <Navbar.Brand>HiddenKey</Navbar.Brand>
+          <Nav variant="tabs" className="me-auto">
+            <Nav.Link as={NavLink} to="/">
+              Home
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/Cifrar">
+              Cifrar
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/Descifrar">
+              Descifrar
+            </Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
       <Routes>
-        <Route path="/" element={<Hello />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="Cifrar" element={<Cifrar />} />
+        <Route path="Descifrar" element={<Descifrar />} />
       </Routes>
     </Router>
   );

@@ -1,18 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
 
-/*
- * @NOTE: Prepend a `~` to css file paths that are in your node_modules
- *        See https://github.com/webpack-contrib/sass-loader#imports
- */
-
 body {
-  position: relative;
-  color: white;
-  height: 100vh;
-  overflow-y: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -44,4 +32,20 @@ input {
 .greenButton {
   background-color: #1da53c;
   font-family: 'DM Sans', 'Roboto', sans-serif;
+}
+
+.mainContainer {
+  background-color: black;
+  height: auto;
+  top: 100px;
+  font-family: 'DM Sans', 'Roboto', sans-serif;
+  position: relative;
+}
+
+.childContainer {
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  background-color: grey;
 }

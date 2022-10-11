@@ -8,8 +8,9 @@ import {
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
-import Cifrar from './components/Cifrar';
-import Descifrar from './components/Descifrar';
+import { useEffect } from 'react';
+import Cifrado from './components/Cifrado';
+import Descifrado from './components/Descifrado';
 
 const logoGrande =
   'https://cdn.discordapp.com/attachments/576565786630422548/1015367780259872838/logotipo_pag.png';
@@ -63,6 +64,13 @@ function LandingPage() {
   );
 }
 
+function Redirect() {
+  useEffect(() => {
+    // window.location = window.location;
+  }, []);
+  return <></>;
+}
+
 export default function App() {
   return (
     <Router>
@@ -70,23 +78,29 @@ export default function App() {
         <Container>
           <Navbar.Brand>HiddenKey</Navbar.Brand>
           <Nav variant="tabs" className="me-auto">
-            <Nav.Link as={NavLink} to="/">
+            <Nav.Link as={NavLink} to="/home">
               Home
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/Cifrar">
+            <Nav.Link as={NavLink} to="/cifrar">
               Cifrar
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/Descifrar">
+            <Nav.Link as={NavLink} to="/descifrar">
               Descifrar
             </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="Cifrar" element={<Cifrar />} />
-        <Route path="Descifrar" element={<Descifrar />} />
-      </Routes>
+      <div className="mainContainer">
+        <Routes>
+          <Route path="/" element={<Redirect />} />
+          <Route path="/home" element={<LandingPage />} />
+          <Route path="cifrar" element={<Cifrado logoGrande={logoGrande} />} />
+          <Route
+            path="descifrar"
+            element={<Descifrado logoGrande={logoGrande} />}
+          />
+        </Routes>
+      </div>
     </Router>
   );
 }

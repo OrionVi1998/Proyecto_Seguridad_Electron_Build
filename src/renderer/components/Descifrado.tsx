@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { JSEncrypt } from 'jsencrypt';
 import { Buffer } from 'buffer';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import { decode } from '../utilidad/png_hider';
 
 function Descifrado({ logoGrande }: { logoGrande: string }) {
   const [clavePrivada, setClavePrivada] = useState('');
 
-  const [, setResultadoDescriptado] = useState<any>('');
+  const [resultadoDescriptado, setResultadoDescriptado] = useState<any>('');
 
   const [foto, setFoto] = useState<any>('');
 
@@ -22,10 +23,6 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
   }
 
   function handleUploadPicture(event: any) {
-    // event.target.files[0].text().then(r => {
-    //   console.log(r)
-    // })
-
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     // reader.readAsBinaryString(event.target.files[0])
@@ -33,11 +30,20 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
     reader.onloadend = () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      const buf = Buffer.from(reader.result, 'base64');
-      console.log(reader.result);
-      console.log(event.target.files[0]);
-      console.log(buf);
+      const buf = Buffer.from(reader.result.split(',')[1], 'base64');
+      // console.log(reader.result);
+      // console.log(event.target.files[0]);
+      // console.log(buf);
       setFoto({ bufferImg: buf, src: reader.result });
+
+      decode(buf)
+        .then((r) => {
+          setResultadoDescriptado(r);
+          return true;
+        })
+        .catch((e) => {
+          return e;
+        });
     };
   }
 
@@ -106,6 +112,31 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
           </Button>
         </Col>
       </Row>
+
+      {resultadoDescriptado ? (
+        <>
+          <br />
+          <Row className="justify-content-md-center">
+            <Col md="auto">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label>MENSAJE DESCIFRADO</label>
+            </Col>
+          </Row>
+
+          <Row className="justify-content-md-center">
+            <Col md="auto">
+              <input
+                type="text"
+                id="clave"
+                disabled
+                value={resultadoDescriptado}
+              />
+            </Col>
+          </Row>
+        </>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 }

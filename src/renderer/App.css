@@ -36,8 +36,9 @@ input {
 
 .mainContainer {
   background-color: black;
-  height: auto;
-  top: 100px;
+  height: 94vh;
+  top: 50px;
+  overflow: hidden;
   font-family: 'DM Sans', 'Roboto', sans-serif;
   position: relative;
 }

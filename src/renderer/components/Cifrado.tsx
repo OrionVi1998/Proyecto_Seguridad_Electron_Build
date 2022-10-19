@@ -2,10 +2,6 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import { Buffer } from 'buffer';
 import { useState } from 'react';
 import { JSEncrypt } from 'jsencrypt';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { PNG } from 'pngjs/browser';
-import { encode } from '../utilidad/png_hider';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 interface photo {
@@ -34,29 +30,16 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
 
     setResultadoEncriptado(textoEncryptado);
 
-    encode(foto.bufferImg, texto)
-      .then((data) => {
-        // console.log(data);
+    const originalImg = foto.bufferImg;
 
-        const buffer = PNG.sync.write(data);
-
-        const BlobToDownload = new Blob([buffer], { type: 'image/png' });
-        // console.log(
-        //   'FileOriginal',
-        //   new Blob([foto.bufferImg], { type: 'image/png' })
-        // );
-        // console.log('FileHidden', BlobToDownload);
-        const pngFile = window.URL.createObjectURL(BlobToDownload);
-        const tempLink = document.createElement('a');
-        tempLink.href = pngFile;
-        tempLink.setAttribute('download', 'filename.png');
-        tempLink.click();
-
-        return true;
-      })
-      .catch((e) => {
-        return e;
-      });
+    const data = new Blob([originalImg], { type: 'image/png' });
+    // eslint-disable-next-line no-console
+    console.log('File', data);
+    const pngFile = window.URL.createObjectURL(data);
+    const tempLink = document.createElement('a');
+    tempLink.href = pngFile;
+    tempLink.setAttribute('download', 'filename.png');
+    tempLink.click();
   }
 
   function handleUploadPicture(event: any) {
@@ -72,9 +55,9 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const buf = Buffer.from(reader.result.split(',')[1], 'base64');
-      // console.log('Result', reader.result);
-      // console.log('Target', event.target.files[0]);
-      // console.log('Buffer', buf);
+      console.log('Result', reader.result);
+      console.log('Target', event.target.files[0]);
+      console.log('Buffer', buf);
       setFoto({
         bufferImg: buf,
         src: reader.result,

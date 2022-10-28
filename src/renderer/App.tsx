@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   MemoryRouter as Router,
   Routes,
   Route,
   NavLink,
+  useNavigate,
 } from 'react-router-dom';
 
 import './App.css';
@@ -16,6 +18,7 @@ const logoGrande =
   'https://cdn.discordapp.com/attachments/576565786630422548/1015367780259872838/logotipo_pag.png';
 
 function LandingPage() {
+  const nav = useNavigate();
   return (
     <Container className="childContainer">
       <Row
@@ -42,7 +45,7 @@ function LandingPage() {
         <Col md="auto">
           <Button
             variant="success"
-            // onClick={() => setTab('Cifrado')}
+            onClick={() => nav('/cifrar')}
             className="greenButton"
             size="lg"
           >
@@ -52,7 +55,7 @@ function LandingPage() {
         <Col md="auto">
           <Button
             variant="success"
-            // onClick={() => setTab('Descifrado')}
+            onClick={() => nav('/descifrar')}
             className="greenButton"
             size="lg"
           >
@@ -65,8 +68,9 @@ function LandingPage() {
 }
 
 function Redirect() {
+  const nav = useNavigate();
   useEffect(() => {
-    // window.location = window.location;
+    nav('/home');
   }, []);
   return <></>;
 }
@@ -94,9 +98,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Redirect />} />
           <Route path="/home" element={<LandingPage />} />
-          <Route path="cifrar" element={<Cifrado logoGrande={logoGrande} />} />
+          <Route path="/cifrar" element={<Cifrado logoGrande={logoGrande} />} />
           <Route
-            path="descifrar"
+            path="/descifrar"
             element={<Descifrado logoGrande={logoGrande} />}
           />
         </Routes>

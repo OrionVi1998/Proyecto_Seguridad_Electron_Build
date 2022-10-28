@@ -46,7 +46,7 @@ textarea {
 .mainContainer {
   background-color: black;
   height: 97vh;
-  top: 40px;
+  top: 3vh;
   overflow: hidden visible;
   font-family: 'DM Sans', 'Roboto', sans-serif;
   position: relative;

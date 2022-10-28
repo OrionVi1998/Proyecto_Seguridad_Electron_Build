@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { JSEncrypt } from 'jsencrypt';
 import { Buffer } from 'buffer';
 import { Button, Col, Container, Row } from 'react-bootstrap';
@@ -7,9 +7,12 @@ import { decode } from '../utilidad/png_hider';
 function Descifrado({ logoGrande }: { logoGrande: string }) {
   const [clavePrivada, setClavePrivada] = useState('');
 
-  const [resultadoDescriptado, setResultadoDescriptado] = useState<any>('');
+  const [textoImagenRaw, setTextoImagenRaw] = useState<string>('');
+  const [textoDescifrado, setTextoDes] = useState<string>('');
 
   const [foto, setFoto] = useState<any>('');
+
+  const [disabled, setDisabled] = useState<boolean>(true);
 
   function cifrarTexto() {
     const privateKey = clavePrivada;
@@ -17,28 +20,30 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
     const decrypt = new JSEncrypt();
     decrypt.setPrivateKey(privateKey);
 
-    const uncrypted = decrypt.decrypt('TextoDeFoto');
+    let uncrypted = String(decrypt.decrypt(textoImagenRaw));
 
-    setResultadoDescriptado(uncrypted);
+    if (uncrypted === 'false') {
+      uncrypted = 'CLAVE PRIVADA INVALIDA';
+    }
+
+    setTextoDes(uncrypted);
   }
 
   function handleUploadPicture(event: any) {
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
-    // reader.readAsBinaryString(event.target.files[0])
 
     reader.onloadend = () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const buf = Buffer.from(reader.result.split(',')[1], 'base64');
-      // console.log(reader.result);
-      // console.log(event.target.files[0]);
-      // console.log(buf);
       setFoto({ bufferImg: buf, src: reader.result });
 
       decode(buf)
         .then((r) => {
-          setResultadoDescriptado(r);
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          setTextoImagenRaw(r);
           return true;
         })
         .catch((e) => {
@@ -46,6 +51,10 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
         });
     };
   }
+
+  useEffect(() => {
+    setDisabled(foto === '' || clavePrivada === '');
+  }, [clavePrivada, foto, textoImagenRaw]);
 
   return (
     <Container className="childContainer" style={{ padding: 20 }}>
@@ -99,6 +108,26 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
         </Col>
       </Row>
 
+      {textoImagenRaw && textoDescifrado === '' ? (
+        <>
+          <br />
+          <Row className="justify-content-md-center">
+            <Col md="auto">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label>TEXTO EN IMAGEN</label>
+            </Col>
+          </Row>
+
+          <Row className="justify-content-md-center">
+            <Col md="auto">
+              <textarea id="clave" disabled value={textoImagenRaw} />
+            </Col>
+          </Row>
+        </>
+      ) : (
+        <></>
+      )}
+
       <Row className="justify-content-md-center" style={{ paddingTop: 15 }}>
         <Col md="auto">
           <Button
@@ -107,13 +136,14 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
             size="lg"
             className="greenButton"
             onClick={() => cifrarTexto()}
+            disabled={disabled}
           >
             DESCIFRAR
           </Button>
         </Col>
       </Row>
 
-      {resultadoDescriptado ? (
+      {textoDescifrado ? (
         <>
           <br />
           <Row className="justify-content-md-center">
@@ -125,12 +155,7 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
 
           <Row className="justify-content-md-center">
             <Col md="auto">
-              <input
-                type="text"
-                id="clave"
-                disabled
-                value={resultadoDescriptado}
-              />
+              <textarea id="clave" disabled value={textoDescifrado} />
             </Col>
           </Row>
         </>

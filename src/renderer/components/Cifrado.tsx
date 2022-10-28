@@ -1,6 +1,6 @@
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { Buffer } from 'buffer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { JSEncrypt } from 'jsencrypt';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -18,34 +18,32 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
   const [clavePublica, setClavePublica] = useState('');
   const [texto, setTexto] = useState('');
 
-  const [, setResultadoEncriptado] = useState<any>('');
-
   const [foto, setFoto] = useState<photo>({
     bufferImg: undefined,
     src: undefined,
     file: undefined,
   });
 
+  const [disabled, setDisabled] = useState<boolean>(true);
+
   function cifrarTexto() {
     const encrypt = new JSEncrypt();
 
     encrypt.setPublicKey(clavePublica);
-    const textoEncryptado = encrypt.encrypt(texto);
+    let textoEncryptado = encrypt.encrypt(texto);
 
-    setResultadoEncriptado(textoEncryptado);
+    if (textoEncryptado === false) {
+      textoEncryptado = texto;
+      alert(
+        'Clave Publica Invalida. El texto se incorporara a la imagen sin encripcion'
+      );
+    }
 
-    encode(foto.bufferImg, texto)
+    encode(foto.bufferImg, textoEncryptado)
       .then((data) => {
-        // console.log(data);
-
         const buffer = PNG.sync.write(data);
 
         const BlobToDownload = new Blob([buffer], { type: 'image/png' });
-        // console.log(
-        //   'FileOriginal',
-        //   new Blob([foto.bufferImg], { type: 'image/png' })
-        // );
-        // console.log('FileHidden', BlobToDownload);
         const pngFile = window.URL.createObjectURL(BlobToDownload);
         const tempLink = document.createElement('a');
         tempLink.href = pngFile;
@@ -60,21 +58,14 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
   }
 
   function handleUploadPicture(event: any) {
-    // event.target.files[0].text().then(r => {
-    //   console.log(r)
-    // })
-
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
-    // reader.readAsBinaryString(event.target.files[0])
 
     reader.onloadend = () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const buf = Buffer.from(reader.result.split(',')[1], 'base64');
-      // console.log('Result', reader.result);
-      // console.log('Target', event.target.files[0]);
-      // console.log('Buffer', buf);
+
       setFoto({
         bufferImg: buf,
         src: reader.result,
@@ -82,6 +73,10 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
       });
     };
   }
+
+  useEffect(() => {
+    setDisabled(clavePublica === '' || texto === '' || foto.bufferImg === '');
+  }, [clavePublica, texto, foto]);
 
   return (
     <Container className="childContainer" style={{ padding: 20 }}>
@@ -162,6 +157,7 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
             size="lg"
             className="greenButton"
             onClick={() => cifrarTexto()}
+            disabled={disabled}
           >
             CIFRAR
           </Button>

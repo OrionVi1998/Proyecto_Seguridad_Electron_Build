@@ -37,8 +37,8 @@ input {
 .mainContainer {
   background-color: black;
   height: 94vh;
-  top: 50px;
-  overflow: hidden;
+  top: 40px;
+  overflow: hidden visible;
   font-family: 'DM Sans', 'Roboto', sans-serif;
   position: relative;
 }

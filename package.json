@@ -1,5 +1,10 @@
 {
-  "description": "A foundation for scalable desktop apps",
+  "name": "HiddenKey",
+  "version": "1.0.0-beta.0",
+  "description": "An app to hide text in images using encryption",
+  "productName": "HiddenKey",
+  "appId": "HiddenKey",
+  "copyright": "OBF",
   "license": "MIT",
   "main": "./src/main/main.ts",
   "scripts": {
@@ -157,8 +162,9 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "HiddenKey",
+    "appId": "HiddenKey",
+    "copyright": "OBF",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [

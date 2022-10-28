@@ -4,13 +4,24 @@ import { Buffer } from 'buffer';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { decode } from '../utilidad/png_hider';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface photo {
+  bufferImg: any;
+  src: any;
+  file: any;
+}
+
 function Descifrado({ logoGrande }: { logoGrande: string }) {
   const [clavePrivada, setClavePrivada] = useState('');
 
   const [textoImagenRaw, setTextoImagenRaw] = useState<string>('');
   const [textoDescifrado, setTextoDes] = useState<string>('');
 
-  const [foto, setFoto] = useState<any>('');
+  const [foto, setFoto] = useState<photo>({
+    bufferImg: undefined,
+    src: undefined,
+    file: undefined,
+  });
 
   const [disabled, setDisabled] = useState<boolean>(true);
 
@@ -37,7 +48,11 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const buf = Buffer.from(reader.result.split(',')[1], 'base64');
-      setFoto({ bufferImg: buf, src: reader.result });
+      setFoto({
+        bufferImg: buf,
+        src: reader.result,
+        file: event.target.files[0],
+      });
 
       decode(buf)
         .then((r) => {
@@ -53,7 +68,7 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
   }
 
   useEffect(() => {
-    setDisabled(foto === '' || clavePrivada === '');
+    setDisabled(foto.bufferImg === undefined || clavePrivada === '');
   }, [clavePrivada, foto, textoImagenRaw]);
 
   return (
@@ -76,6 +91,7 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
           <input
             type="text"
             id="clave"
+            accept="image/png"
             required
             placeholder="clave privada"
             onChange={(event) => setClavePrivada(event.target.value)}

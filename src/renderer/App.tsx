@@ -14,8 +14,7 @@ import { useEffect } from 'react';
 import Cifrado from './components/Cifrado';
 import Descifrado from './components/Descifrado';
 
-const logoGrande =
-  'https://cdn.discordapp.com/attachments/576565786630422548/1015367780259872838/logotipo_pag.png';
+import logoGrande from './iconBig.png';
 
 function LandingPage() {
   const nav = useNavigate();

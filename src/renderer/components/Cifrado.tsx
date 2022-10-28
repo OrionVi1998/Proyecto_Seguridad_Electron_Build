@@ -75,7 +75,9 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
   }
 
   useEffect(() => {
-    setDisabled(clavePublica === '' || texto === '' || foto.bufferImg === '');
+    setDisabled(
+      clavePublica === '' || texto === '' || foto.bufferImg === undefined
+    );
   }, [clavePublica, texto, foto]);
 
   return (
@@ -98,6 +100,7 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
           <input
             type="text"
             id="clave"
+            accept="image/png"
             required
             placeholder="clave pública"
             onChange={(event) => setClavePublica(event.target.value)}

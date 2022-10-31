@@ -15,18 +15,20 @@ interface photo {
 }
 
 function Cifrado({ logoGrande }: { logoGrande: string }) {
+  /* Componente de la pagina de cifrado */
+
   const [clavePublica, setClavePublica] = useState('');
   const [texto, setTexto] = useState('');
-
   const [foto, setFoto] = useState<photo>({
     bufferImg: undefined,
     src: undefined,
     file: undefined,
   });
-
   const [disabled, setDisabled] = useState<boolean>(true);
 
   function cifrarTexto() {
+    /* La funcion que sucede cuando se presiona el boton de cifrado.
+    1. Cifra el mensaje con la clave proveída */
     const encrypt = new JSEncrypt();
 
     encrypt.setPublicKey(clavePublica);
@@ -39,10 +41,13 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
       );
     }
 
+    /* 2. Utiliza la funcion encode para esconder el texto en la imagen */
+
     encode(foto.bufferImg, textoEncryptado)
       .then((data) => {
-        const buffer = PNG.sync.write(data);
+        /* 3. convierte la data en un blob png para ser descargada */
 
+        const buffer = PNG.sync.write(data);
         const BlobToDownload = new Blob([buffer], { type: 'image/png' });
         const pngFile = window.URL.createObjectURL(BlobToDownload);
         const tempLink = document.createElement('a');
@@ -58,6 +63,8 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
   }
 
   function handleUploadPicture(event: any) {
+    /* Funcion para manejar la imagen subida por el usuario */
+
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
 
@@ -75,6 +82,7 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
   }
 
   useEffect(() => {
+    /* Control de habilitacion del boton */
     setDisabled(
       clavePublica === '' || texto === '' || foto.bufferImg === undefined
     );

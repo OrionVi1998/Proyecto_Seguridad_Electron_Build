@@ -17,6 +17,7 @@ import Descifrado from './components/Descifrado';
 import logoGrande from './iconBig.png';
 
 function LandingPage() {
+  /* Componente que contiene la landing page y su estructura */
   const nav = useNavigate();
   return (
     <Container className="childContainer">
@@ -67,6 +68,7 @@ function LandingPage() {
 }
 
 function Redirect() {
+  /* Componente que te redirecciona a la landing page */
   const nav = useNavigate();
   useEffect(() => {
     nav('/home');
@@ -75,6 +77,7 @@ function Redirect() {
 }
 
 export default function App() {
+  /* Estructura de la aplicaccion y la navbar */
   return (
     <Router>
       <Navbar bg="dark" fixed="top" variant="dark">

@@ -5,9 +5,8 @@ import { PNG } from 'pngjs/browser';
 // @ts-ignore
 import { stringToBinary, binaryToString } from './binaryConversion';
 
-// let {stringToBinary, binaryToString} = require('./binaryConversion.js')
-
 function encode(buffer: any, message: any) {
+  /* Esconder string dento de png */
   return new Promise((resolve) => {
     new PNG({ filterType: 4 }).parse(buffer, function (_error: any, data: any) {
       // eslint-disable-next-line no-param-reassign
@@ -43,6 +42,7 @@ function encode(buffer: any, message: any) {
 }
 
 function decode(buffer: any) {
+  /* Png a string */
   return new Promise((resolve) => {
     new PNG({ filterType: 4 }).parse(buffer, function (_error: any, data: any) {
       let message: any = [];

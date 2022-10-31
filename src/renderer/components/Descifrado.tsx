@@ -25,7 +25,8 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
 
   const [disabled, setDisabled] = useState<boolean>(true);
 
-  function cifrarTexto() {
+  function decifrarTexto() {
+    /* Funcion de descifrado de texto */
     const privateKey = clavePrivada;
 
     const decrypt = new JSEncrypt();
@@ -41,6 +42,8 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
   }
 
   function handleUploadPicture(event: any) {
+    /* Funcion de descifrado cuando se sube una foto */
+
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
 
@@ -68,6 +71,7 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
   }
 
   useEffect(() => {
+    /* Funcion de control de habilitacion del boton */
     setDisabled(foto.bufferImg === undefined || clavePrivada === '');
   }, [clavePrivada, foto, textoImagenRaw]);
 
@@ -151,7 +155,7 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
             variant="success"
             size="lg"
             className="greenButton"
-            onClick={() => cifrarTexto()}
+            onClick={() => decifrarTexto()}
             disabled={disabled}
           >
             DESCIFRAR

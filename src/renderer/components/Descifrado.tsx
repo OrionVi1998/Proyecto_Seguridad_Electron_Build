@@ -95,7 +95,6 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
           <input
             type="text"
             id="clave"
-            accept="image/png"
             required
             placeholder="clave privada"
             onChange={(event) => setClavePrivada(event.target.value)}
@@ -105,7 +104,11 @@ function Descifrado({ logoGrande }: { logoGrande: string }) {
 
       <Row className="justify-content-md-center" style={{ paddingTop: 15 }}>
         <Col md="auto">
-          <input type="file" onChange={handleUploadPicture} />
+          <input
+            type="file"
+            accept="image/png"
+            onChange={handleUploadPicture}
+          />
         </Col>
       </Row>
 

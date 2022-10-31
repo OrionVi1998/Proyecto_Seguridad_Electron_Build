@@ -108,7 +108,6 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
           <input
             type="text"
             id="clave"
-            accept="image/png"
             required
             placeholder="clave pública"
             onChange={(event) => setClavePublica(event.target.value)}
@@ -137,7 +136,11 @@ function Cifrado({ logoGrande }: { logoGrande: string }) {
 
       <Row className="justify-content-md-center" style={{ paddingTop: 15 }}>
         <Col md="auto">
-          <input type="file" onChange={(e) => handleUploadPicture(e)} />
+          <input
+            type="file"
+            accept="image/png"
+            onChange={(e) => handleUploadPicture(e)}
+          />
         </Col>
       </Row>
 
